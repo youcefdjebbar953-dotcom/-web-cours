@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل أساسيات برمجة المواقع | Youcef Developer</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #f8fafc;
+            --bg-surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent-html: #ea580c;
+            --accent-css: #0284c7;
+            --accent-js: #d97706;
+            --primary-glow: #6366f1;
+            --border-color: #e2e8f0;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.7;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* خلفية ديناميكية فاتحة ومحترفة */
+        .bg-decoration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: absolute;
+            filter: blur(90px);
+            opacity: 0.45;
+            border-radius: 50%;
+        }
+
+        .blob-1 {
+            top: -10%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: #e0e7ff;
+        }
+
+        .blob-2 {
+            bottom: -10%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: #fae8ff;
+        }
+
+        .blob-3 {
+            top: 40%;
+            left: 30%;
+            width: 400px;
+            height: 400px;
+            background: #e0f2fe;
+        }
+
+        /* Container General */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header Layout */
+        header {
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: #e0e7ff;
+            color: #4338ca;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* Main Glass Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        /* Navigation Tabs */
+        .tabs-nav {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: #f1f5f9;
+            border: 1px solid var(--border-color);
+            padding: 12px 28px;
+            border-radius: var(--radius-md);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-muted);
+        }
+
+        .tab-btn:hover {
+            background: #e2e8f0;
+            color: var(--text-main);
+        }
+
+        .tab-btn.active[data-tab="html"] {
+            background: #fff7ed;
+            color: var(--accent-html);
+            border-color: #ffedd5;
+            box-shadow: 0 4px 12px rgba(234, 88, 12, 0.15);
+        }
+
+        .tab-btn.active[data-tab="css"] {
+            background: #f0f9ff;
+            color: var(--accent-css);
+            border-color: #e0f2fe;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+        }
+
+        .tab-btn.active[data-tab="js"] {
+            background: #fffbeb;
+            color: var(--accent-js);
+            border-color: #fef3c7;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.15);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .content-header i {
+            font-size: 2.2rem;
+        }
+
+        .content-header h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+        }
+
+        .info-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Code Block Layout */
+        .code-container {
+            background: #0f172a;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-top: 20px;
+            direction: ltr;
+        }
+
+        .code-header {
+            background: #1e293b;
+            padding: 10px 16px;
+            color: #94a3b8;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        pre {
+            padding: 20px;
+            overflow-x: auto;
+            color: #f8fafc;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Developer Card & Contact */
+        .developer-section {
+            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .developer-section h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .developer-section p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .telegram-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #0088cc;
+            color: #ffffff;
+            padding: 12px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+        }
+
+        .telegram-btn:hover {
+            background: #0077b5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 136, 204, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .footer-brand {
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+            color: var(--text-main);
+            letter-spacing: 1px;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.1rem; }
+            .glass-card { padding: 24px; }
+            .tab-btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- خلفية جمالية مريحة -->
+    <div class="bg-decoration">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <span class="badge"><i class="fa-solid fa-code"></i> دليل المطور المبتدئ</span>
+            <h1>أساسيات برمجة وتصميم المواقع</h1>
+            <p>تعلم كيفية بناء صفحات ويب حديثة ومتكاملة باستخدام اللغات الأساسية الثلاث</p>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="glass-card">
+            <!-- Tabs Navigation -->
+            <div class="tabs-nav">
+                <button class="tab-btn active" data-tab="html">
+                    <i class="fa-brands fa-html5" style="color: var(--accent-html);"></i> HTML5
+                </button>
+                <button class="tab-btn" data-tab="css">
+                    <i class="fa-brands fa-css3-alt" style="color: var(--accent-css);"></i> CSS3
+                </button>
+                <button class="tab-btn" data-tab="js">
+                    <i class="fa-brands fa-js" style="color: var(--accent-js);"></i> JavaScript
+                </button>
+            </div>
+
+            <!-- HTML Content -->
+            <div id="html" class="tab-content active">
+                <div class="content-header">
+                    <i class="fa-brands fa-html5" style="color: var(--accent-html);"></i>
+                    <div>
+                        <h2>لغة HTML (هيكل الموقع)</h2>
+                        <p style="color: var(--text-muted);">هي الهيكل العظمي لأي صفحة ويب وتُستخدم لإضافة النصوص، الصور، والروابط.</p>
+                    </div>
+                </div>
+
+                <div class="section-grid">
+                    <div class="info-box">
+                        <h3><i class="fa-solid fa-layer-group"></i> العناصر الأساسية</h3>
+                        <p>تعتمد HTML على "العناوين" (Tags) مثل <code>&lt;h1&gt;</code> للعناوين و <code>&lt;p&gt;</code> للفقرات النصية.</p>
+                    </div>
+                    <div class="info-box">
+                        <h3><i class="fa-solid fa-link"></i> الوسائط والروابط</h3>
+                        <p>تستخدم <code>&lt;a&gt;</code> لربط الصفحات و <code>&lt;img&gt;</code> لعرض الصور وسائط الميديا المختلفة.</p>
+                    </div>
+                </div>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span>index.html</span>
+                        <i class="fa-regular fa-copy"></i>
+                    </div>
+                    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="ar"&gt;
+&lt;head&gt;
+    &lt;title&gt;صفحتي الأولى&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;مرحباً بك في موقعي&lt;/h1&gt;
+    &lt;p&gt;هذه بداية رحلتي في تعلم البرمجة!&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- CSS Content -->
+            <div id="css" class="tab-content">
+                <div class="content-header">
+                    <i class="fa-brands fa-css3-alt" style="color: var(--accent-css);"></i>
+                    <div>
+                        <h2>لغة CSS (تنسيق الموقع)</h2>
+                        <p style="color: var(--text-muted);">تُستخدم لتنسيق وإضافة الألوان، الخطوط، والمؤثرات البصرية للـ HTML.</p>
+                    </div>
+                </div>
+
+                <div class="section-grid">
+                    <div class="info-box">
+                        <h3><i class="fa-solid fa-palette"></i> الألوان والتنسيق</h3>
+                        <p>يمكنك تغيير لون النصوص والتصميم الداخلي والخارجي للمكونات باستخدام Margins و Padding.</p>
+                    </div>
+                    <div class="info-box">
+                        <h3><i class="fa-solid fa-table-cells"></i> التخطيط (Flexbox & Grid)</h3>
+                        <p>أنظمة حديثة تتيح لك ترتيب المكونات وتوزيعها بشكل متناسق ومتجاوب مع الهاتف.</p>
+                    </div>
+                </div>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span>style.css</span>
+                        <i class="fa-regular fa-copy"></i>
+                    </div>
+                    <pre><code>body {
+    background-color: #f8fafc;
+    font-family: 'Arial', sans-serif;
+}
+
+h1 {
+    color: #0284c7;
+    text-align: center;
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- JavaScript Content -->
+            <div id="js" class="tab-content">
+                <div class="content-header">
+                    <i class="fa-brands fa-js" style="color: var(--accent-js);"></i>
+                    <div>
+                        <h2>لغة JavaScript (التفاعلية)</h2>
+                        <p style="color: var(--text-muted);">تمنح الموقع الحياة والتفاعلية مثل فتح القوائم، إرسال البيانات، واستجابة النقرات.</p>
+                    </div>
+                </div>
+
+                <div class="section-grid">
+                    <div class="info-box">
+                        <h3><i class="fa-solid fa-code-branch"></i> المتغيرات والدوال</h3>
+                        <p>تخزين البيانات والتحكم في سير البرنامج من خلال الدوال (Functions) والأحداث (Events).</p>
+                    </div>
+                    <div class="info-box">
+                        <h3><i class="fa-solid fa-hand-pointer"></i> التحكم بالعناصر (DOM)</h3>
+                        <p>تمكنك من تعديل نصوص وصفحات HTML وتغيير تنسيقات CSS ديناميكياً أثناء استخدام الزائر للموقع.</p>
+                    </div>
+                </div>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span>script.js</span>
+                        <i class="fa-regular fa-copy"></i>
+                    </div>
+                    <pre><code>// التفاعل عند الضغط على زر
+document.querySelector('button').addEventListener('click', function() {
+    alert('أهلاً بك! تم النقر على الزر بنجاح.');
+});</code></pre>
+                </div>
+            </div>
+        </main>
+
+        <!-- Developer Section -->
+        <section class="developer-section">
+            <h3><i class="fa-solid fa-laptop-code"></i> مبرمج ومصمم مواقع</h3>
+            <p>جاهز لتطوير أفكارك وبناء مواقع وإسهامات رقمية واحترافية عالية الجودة</p>
+            <a href="https://t.me/youcefdjebbar953" target="_blank" class="telegram-btn">
+                <i class="fa-brands fa-telegram"></i> للتواصل المباشر: @youcefdjebbar953
+            </a>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            جميع الحقوق محفوظة &copy; 2026
+            <span class="footer-brand">youcef developer</span>
+        </footer>
+    </div>
+
+    <!-- JavaScript For Interaction -->
+    <script>
+        // JS لتنفيذ تنقل التبويبات بنعومة
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // إزالة التفعيل عن جميع الأزرار والمحتويات
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+
+                // تفعيل التبويب المختار
+                btn.classList.add('active');
+                const tabId = btn.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
